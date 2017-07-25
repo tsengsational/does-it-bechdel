@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'activerecord', :require => 'active_record'
 gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
-gem 'sqlite3'
+
 gem 'sinatra'
 gem 'thin'
 gem 'shotgun'
@@ -17,3 +17,10 @@ gem 'require_all'
 gem 'rest-client'
 gem 'json'
 gem 'bulk_insert'
+group :production do
+  gem 'pg'
+end
+
+group :development do
+  gem 'sqlite3'
+end
