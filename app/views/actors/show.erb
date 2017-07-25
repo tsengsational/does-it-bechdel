@@ -1,0 +1,67 @@
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="row">
+  <span></span>
+</div>
+
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <h1><%= @actor.name %></h1>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div class="form-group">
+      <a href="/actors" class="btn btn-default">Back to All Actors</a> <a href="/actors/<%=@actor.id%>" class='btn btn-default'>Edit</a>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <table class="table">
+      <tr>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Pass?</th>
+        <th>Partial?</th>
+        <th>Director</th>
+        <th>Co-stars</th>
+      </tr>
+      <% @actor.movies.each do |movie| %>
+      <tr>
+        <td><a href="/movies/<%=movie.id%>" ><%= movie.title %></a></td>
+        <td><%= movie.year %></td>
+        <td><%= movie.binary %></td>
+        <td><% detail = movie.detail %>
+          <% if detail == "ok"%>
+          <%="Passed!"%>
+          <% elsif detail == "dubious" %>
+          <%= "Passes, barely" %>
+          <% elsif detail == "men" %>
+          <%= "Women only talk about men" %>
+          <% elsif detail == "notalk"%>
+          <%= "Women don't talk to each other" %>
+          <% elsif detail == "nowomen"%>
+          <%= "Fewer than two women" %>
+          <% end %>
+        </td>
+        <td><a href="/directors/<%=movie.director.id%>"><%= movie.director_id.nil? ? "none" : movie.director.name %></a></td>
+        <td><%= movie.actors.nil? ? "none" : movie.actors.map {|actor| "<a href='/actors/#{ actor.id}'>#{actor.name}</a>" }.join(", ") %></td>
+      </tr>
+      <% end %>
+    </table>
+    <form action="/actors/<%=@actor.id%>/delete" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <input class="btn btn-default" type="submit" name="delete" value="Delete">
+    </form>
+  </div>
+  <div class="col-md-1"></div>
+</div>
